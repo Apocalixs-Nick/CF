@@ -1,3 +1,4 @@
+//Git repo add
 import java.io.*;
 import java.util.*;
 import java.util.Scanner;
@@ -39,7 +40,7 @@ public class Main {
             }
             else if(sesso.equals(F)||sesso.equals(f))
             {
-                String giornonascitaf=giornonascita+40;
+                giornonascita=giornonascita+40;
                 t = true;
             }
         }
@@ -47,6 +48,7 @@ public class Main {
         String comune = sc.nextLine();
         /*Creazione dell'oggetto di tipo codice fiscale*/
         CodiceFiscale cf;
+        //char[] controllo;
         /*Chiamata della funzione codice fiscale per l'acquisizione dei dati dal main*/
         cf=new CodiceFiscale(cognome,nome,giornonascita,mesenascita,annonascita,sesso,comune);
         /*Chiamata della funzione della classe codice fiscale per il calcolo del cognome*/
@@ -68,6 +70,11 @@ public class Main {
         String noccf = cfcogn.toUpperCase()+cfn.toUpperCase()+cfanno+cfmese+giornonascita+cfcomune;
         System.out.println("CF ricavato senza variabile di controllo: "+noccf);
         /*Chiamata della funzione della classe codice fiscale per l'acquisizione della variabile di controllo*/
-        String cfc=cf.variabilecontrollo(noccf);
+        char cfc=cf.variabilecontrollo(noccf);
+        System.out.println("Lettera: "+cfc);
+        String lett=String.valueOf(cfc);
+        String codicefiscale=noccf+lett;
+        /*Visualizzazione del codice fiscale*/
+        System.out.println("CODICE FISCALE: "+codicefiscale);
     }
 }
