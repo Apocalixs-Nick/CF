@@ -13,6 +13,7 @@ public class Main {
         boolean t = false;
         System.out.println("Inserisci il cognome: ");
         String cognome = sc.nextLine();
+        /*Acquisizione da input del nome della persona*/
         System.out.println("Inserisci il nome: ");
         String nome = sc.nextLine();
         System.out.println("Inserisci il giorno di nascita(01,02,03,04,05,06,07,08,09,ecc...): ");
