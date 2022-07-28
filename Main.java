@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner sc=new Scanner(System.in);
         boolean t = false;
+        /*Acquisizione da input del cognome della persona*/
         System.out.println("Inserisci il cognome: ");
         String cognome = sc.nextLine();
         /*Acquisizione da input del nome della persona*/
