@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Main {
+    //commento di fra
     public static void main(String[] args) throws IOException {
         Scanner sc=new Scanner(System.in);
         boolean t = false;
