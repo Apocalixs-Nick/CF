@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class CodiceFiscale
-{
+public class CodiceFiscale {
     private String cognome;
     private String nome;
     private String giornonascita;
@@ -20,9 +19,10 @@ public class CodiceFiscale
     private String com;
     private String ncf;
     private String lettmes;
-    /*Acquisizione dei valori inseriti nel main.java*/
-    public CodiceFiscale(String cognome, String nome, String giornonascita, String mesenascita, String annonascita, String sesso, String comune)
-    {
+
+    /* Acquisizione dei valori inseriti nel main.java */
+    public CodiceFiscale(String cognome, String nome, String giornonascita, String mesenascita, String annonascita,
+            String sesso, String comune) {
         this.cognome = cognome;
         this.nome = nome;
         this.giornonascita = giornonascita;
@@ -30,187 +30,198 @@ public class CodiceFiscale
         this.annonascita = annonascita;
         this.sesso = sesso;
         this.comune = comune;
-        //this.controllo = controllo;
+        // this.controllo = controllo;
     }
-    
-    /*Calcolo del cognome inserito nel main.java*/
-    public String Cognome(String cognome)
-    {
-        char[] vowels = {'a','e', 'i', 'o', 'u','A','E', 'I', 'O', 'U'};
+
+    /* Calcolo del cognome inserito nel main.java */
+
+    // riedito funzione cognome:
+    public String Cognome(String cognome) {
+        char[] vowels = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
         char[] ch = cognome.toCharArray();
         int numCons = 0;
         int numVoc = 0;
         String CFcognome = "";
         boolean vocale = false;
-        for(int i=0;i<cognome.length();i++)
-        {
-            if(numCons==3) break;
-            for(int j=0;j<vowels.length;j++)
-            {
-                if(ch[i]==vowels[j])
-                {
+        for (int i = 0; i < cognome.length(); i++) {
+            if (numCons == 3)
+                break;
+            for (int j = 0; j < vowels.length; j++) {
+                if (ch[i] == vowels[j]) {
                     vocale = true;
                     break;
                 }
             }
-            if(vocale) vocale=false;
-            else
-            {
+            if (vocale)
+                vocale = false;
+            else {
                 numCons++;
-                CFcognome=CFcognome+ch[i];
+                CFcognome = CFcognome + ch[i];
             }
         }
-        if(numCons<3)
-        {
-            for(int i=0;i<cognome.length();i++)
-            {
-                if((numCons+numVoc)==3) break;
-                for(int j=0;j<vowels.length;j++)
-                {
-                    if(ch[i]==vowels[j])
-                    {
+        if (numCons < 3) {
+            for (int i = 0; i < cognome.length(); i++) {
+                if ((numCons + numVoc) == 3)
+                    break;
+                for (int j = 0; j < vowels.length; j++) {
+                    if (ch[i] == vowels[j]) {
                         vocale = true;
                         break;
                     }
                 }
-                if(vocale) vocale=false;
-                else
-                {
+                if (vocale)
+                    vocale = false;
+                else {
                     numCons++;
-                    CFcognome=CFcognome+ch[i];
+                    CFcognome = CFcognome + ch[i];
                 }
             }
         }
         return CFcognome;
     }
 
-    /*Calcolo del nome inserito nel main.java*/
-    public String Nome(String Nome)
-    {
-        char[] vowels = {'a','e', 'i', 'o', 'u','A','E', 'I', 'O', 'U'};
-        char[] ch = nome.toCharArray();
-        int numCons = 0;
-        int numVoc = 0;
-        String CFnome = "";
+    /* Calcolo del nome inserito nel main.java */
+    // edit by fra, non salta la seconda lettera
+    public List<Character> nome_cf() {
+
+        // dichiaro lista risultato
+        List<Character> res_nome = new ArrayList<Character>();
+
+        // dichiaro booleano, tentativi e secondo carattere
         boolean vocale = false;
-        for(int i=0;i<nome.length();i++)
-        {
-            if(numCons==3) break;
-            for(int j=0;j<vowels.length;j++)
-            {
-                if(ch[i]==vowels[j])
-                {
-                    vocale = true;
-                    break;
-                }
-            }
-            if(vocale) vocale=false;
-            else
-            {
-                numCons++;
-                CFnome=CFnome+ch[i];
+        int tentativi = 1;
+        boolean sec_char = true;
+
+        // dichiaro gli array vocali
+        char[] vocali = { 'a', 'e', 'i', 'o', 'u' };
+
+        // scompongo il nome in array char
+        char[] nome_scomposto = new char[this.nome.length()];
+        // copia array in nome_scomposto
+        for (int i = 0; i < this.nome.length(); i++) {
+            nome_scomposto[i] = this.nome.charAt(i);
+        }
+
+        // conto le consonanti per verificare se saltare o meno la seconda consonant
+        // (solo se minore di 4 consonanti)
+        int count_consonanti = 0;
+        for (int i = 0; i < this.nome.length(); i++) {
+            char ch = this.nome.charAt(i);
+            if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                System.out.print("");
+            } else if (ch != ' ') {
+                count_consonanti += 1;
             }
         }
-        if(numCons<3)
-        {
-            for(int i=0;i<nome.length();i++)
-            {
-                if((numCons+numVoc)==3) break;
-                for(int j=0;j<vowels.length;j++)
-                {
-                    if(ch[i]==vowels[j])
-                    {
-                        vocale = true;
+        // in caso di consonanti minori di 4, allora non salterò la seconda consonante
+        if (count_consonanti < 4) {
+            sec_char = false;
+        }
+
+        // ciclo per la lenght del nome, setto la booleana vocale a false come
+        // semaforo, poi ciclo per quante sono le vocali e setto la booleana, se false
+        // copio in array result
+        while (res_nome.size() < 3) {
+            if (tentativi == 1) {
+                for (int i = 0; i < this.nome.length(); i++) {
+                    // se il res è = 3 allora break
+                    if (res_nome.size() == 3) {
                         break;
                     }
+                    vocale = false;
+                    for (int j = 0; j < vocali.length; j++) {
+                        // comparo nome[i] e vocale[j]
+                        if (nome_scomposto[i] == vocali[j]) {
+                            vocale = true;
+                            break;
+                        }
+                    }
+                    // pusho il risultato
+                    if (!vocale) {
+                        if (res_nome.size() == 1 && sec_char == true) {
+                            sec_char = false;
+                            continue;
+                        }
+                        res_nome.add(nome_scomposto[i]);
+                    }
                 }
-                if(vocale) vocale=false;
-                else
-                {
-                    numCons++;
-                    CFnome=CFnome+ch[i];
+            } else if (tentativi == 2) {
+                for (int i = 0; i < this.nome.length(); i++) {
+                    // se il res è = 3 allora break
+                    if (res_nome.size() == 3) {
+                        break;
+                    }
+                    vocale = false;
+                    for (int j = 0; j < vocali.length; j++) {
+                        // comparo nome[i] e vocale[j]
+                        if (nome_scomposto[i] == vocali[j]) {
+                            vocale = true;
+                        }
+                    }
+                    // pusho il risultato (stavolta solo se è vocale)
+                    if (vocale) {
+                        res_nome.add(nome_scomposto[i]);
+                    }
+                }
+                // riempio di x fino a 3
+            } else if (tentativi == 3) {
+                while (res_nome.size() < 3) {
+                    res_nome.add('x');
                 }
             }
+            tentativi += 1;
         }
-        return CFnome;
+
+        return res_nome;
     }
 
-    /*Funzione per l'associazione del mese al suo carattere*/
-    public String lettmese(String mesenascita)
-    {
-            if(mesenascita.equals("1"))
-            {
-                lettmes="A";
-            }
-            else if(mesenascita.equals("2"))
-            {
-                lettmes="B";
-            }
-            else if(mesenascita.equals("3"))
-            {
-                lettmes="C";
-            }
-            else if(mesenascita.equals("4"))
-            {
-                lettmes="D";
-            }
-            else if(mesenascita.equals("5"))
-            {
-                lettmes="E";
-            }
-            else if(mesenascita.equals("6"))
-            {
-                lettmes="H";
-            }
-            else if(mesenascita.equals("7"))
-            {
-                lettmes="L";
-            }
-            else if(mesenascita.equals("8"))
-            {
-                lettmes="M";
-            }
-            else if(mesenascita.equals("9"))
-            {
-                lettmes="P";
-            }
-            else if(mesenascita.equals("10"))
-            {
-                lettmes="R";
-            }
-            else if(mesenascita.equals("11"))
-            {
-                lettmes="S";
-            }
-            else if(mesenascita.equals("12"))
-            {
-                lettmes="T";
-            }
+    /* Funzione per l'associazione del mese al suo carattere */
+    public String lettmese(String mesenascita) {
+        if (mesenascita.equals("1")) {
+            lettmes = "A";
+        } else if (mesenascita.equals("2")) {
+            lettmes = "B";
+        } else if (mesenascita.equals("3")) {
+            lettmes = "C";
+        } else if (mesenascita.equals("4")) {
+            lettmes = "D";
+        } else if (mesenascita.equals("5")) {
+            lettmes = "E";
+        } else if (mesenascita.equals("6")) {
+            lettmes = "H";
+        } else if (mesenascita.equals("7")) {
+            lettmes = "L";
+        } else if (mesenascita.equals("8")) {
+            lettmes = "M";
+        } else if (mesenascita.equals("9")) {
+            lettmes = "P";
+        } else if (mesenascita.equals("10")) {
+            lettmes = "R";
+        } else if (mesenascita.equals("11")) {
+            lettmes = "S";
+        } else if (mesenascita.equals("12")) {
+            lettmes = "T";
+        }
         return lettmes;
     }
 
-    /*Funzione per ricavare gli ultimi caratteri dell'anno di nascita*/
-    public String anno(String annonascita)
-    {
-        com=annonascita.substring(2, 4);
+    /* Funzione per ricavare gli ultimi caratteri dell'anno di nascita */
+    public String anno(String annonascita) {
+        com = annonascita.substring(2, 4);
         return com;
     }
 
-    /*Funzione per l'associazione del codice el comune di nascita*/
-    public String luogonascita() throws IOException 
-    {
+    /* Funzione per l'associazione del codice el comune di nascita */
+    public String luogonascita() throws IOException {
         List<String> risultati_matchati = new ArrayList<String>();
         String linea_matchata = null;
         List<String> lines = Files.readAllLines(Paths.get("comuni.txt"));
-        for (String line : lines)
-        {
-            if (line.contains(this.comune.toUpperCase()))
-            {
+        for (String line : lines) {
+            if (line.contains(this.comune.toUpperCase())) {
                 risultati_matchati.add(line);
             }
         }
-        for (int i = 0; i < risultati_matchati.size(); i++) 
-        {
+        for (int i = 0; i < risultati_matchati.size(); i++) {
             System.out.println((i + 1) + ")" + risultati_matchati.get(i));
         }
         Scanner input = new Scanner(System.in);
@@ -222,8 +233,7 @@ public class CodiceFiscale
         return codice_comune;
     }
 
-    public char variabilecontrollo(String ncf)
-    {
+    public char variabilecontrollo(String ncf) {
         char[] totA = ncf.toCharArray();
         HashMap<Character, Integer> codiciDisp = new HashMap<Character, Integer>();
         codiciDisp.put('0', 1);
@@ -301,11 +311,11 @@ public class CodiceFiscale
         codiciPar.put('Y', 24);
         codiciPar.put('Z', 25);
 
-        char [] resto = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+        char[] resto = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+                'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
         int sommatore = 0;
 
-        for (int i = 1; i <= totA.length; i++) 
-        {
+        for (int i = 1; i <= totA.length; i++) {
 
             if (i % 2 == 0) {
 
@@ -319,7 +329,7 @@ public class CodiceFiscale
 
         }
         sommatore = sommatore % 26;
-        controllo=resto[sommatore];
+        controllo = resto[sommatore];
         return controllo;
     }
 }

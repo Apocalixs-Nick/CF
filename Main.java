@@ -55,7 +55,13 @@ public class Main {
         /*Chiamata della funzione della classe codice fiscale per il calcolo del cognome*/
         String cfcogn=cf.Cognome(cognome);
         /*Chiamata della funzione della classe codice fiscale per il calcolo del nome*/
-        String cfn=cf.Nome(nome);
+        
+        //getto nome by fra
+        List<Character> nome_cf_lista = cf.nome_cf();
+        String nome_cf_stringa = nome_cf_lista.toString()
+        .substring(1, 3 * nome_cf_lista.size() - 1)
+        .replaceAll(", ", "");
+        
         /*Chiamata della funzione della classe codice fiscale per l'asegnazione della lettera in base al mese di nascita*/
         String cfmese=cf.lettmese(mesenascita);
         /*Chiamata della funzione della classe codice fiscale per l'acquisizione degli ultimi due caratteri dell'anno*/
@@ -63,12 +69,12 @@ public class Main {
         /*Chiamata della funzione della classe codice fiscale per l'acquisizione del codice del comune di nascita*/
         String cfcomune=cf.luogonascita();
         System.out.println("Cognome ricavato: "+cfcogn.toUpperCase());
-        System.out.println("Nome ricavato: "+cfn.toUpperCase());
+        System.out.println("Nome ricavato: "+nome_cf_stringa.toUpperCase());
         System.out.println("Lettera mese ricavato: "+cfmese);
         System.out.println("Anno ricavato: "+cfanno);
         System.out.println("Sesso ricavato: "+sesso);
         System.out.println("Comune ricavato: "+cfcomune);
-        String noccf = cfcogn.toUpperCase()+cfn.toUpperCase()+cfanno+cfmese+giornonascita+cfcomune;
+        String noccf = cfcogn.toUpperCase()+nome_cf_stringa.toUpperCase()+cfanno+cfmese+giornonascita+cfcomune;
         System.out.println("CF ricavato senza variabile di controllo: "+noccf);
         /*Chiamata della funzione della classe codice fiscale per l'acquisizione della variabile di controllo*/
         char cfc=cf.variabilecontrollo(noccf);
