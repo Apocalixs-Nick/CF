@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-/*Classe CodiceFiscale*/
+
 public class CodiceFiscale {
     private String cognome;
     private String nome;
